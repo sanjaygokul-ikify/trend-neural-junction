@@ -53,6 +53,8 @@ class PolicyEngine:
     def register_agent(self, agent: Agent):
         try:
             # Register an agent with the policy engine
+            if agent.metadata.name in self.agents:
+                raise AgentError(f"Agent {agent.metadata.name} already registered")
             self.agents[agent.metadata.name] = agent
             logger.info(f"Registered agent: {agent.metadata.name}")
         except AgentError as e:
