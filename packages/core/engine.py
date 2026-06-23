@@ -9,6 +9,7 @@ class PolicyEngine:
     def __init__(self, policies: List[Policy]):
         self.policies = policies
         self.agents: Dict[str, Agent] = {}
+        self.valid_actions: List[str] = ["read", "write", "execute"]
 
     def validate_policy(self, policy: Policy) -> bool:
         try:
@@ -36,19 +37,14 @@ class PolicyEngine:
     def _validate_policy_semantics(self, policy: Policy) -> bool:
         # Check policy semantics (e.g., action permissions)
         try:
-            # Check if policy actions are valid
             for action in policy.actions:
-                if action not in self._get_valid_actions():
+                if action not in self.valid_actions:
                     logger.error(f"Invalid policy action: {action}")
                     return False
             return True
         except Exception as e:
             logger.error(f"Error validating policy semantics: {e}")
             return False
-
-    def _get_valid_actions(self) -> List[str]:
-        # Return a list of valid policy actions
-        return ["read", "write", "execute"]
 
     def register_agent(self, agent: Agent):
         try:
