@@ -6,12 +6,12 @@ from .exceptions import PolicyEngineError, InvalidPolicyError, AgentError
 logger = logging.getLogger(__name__)
 
 class PolicyEngine:
-    def __init__(self, policies: List[Policy]):
+    def __init__(self, policies: List['Policy']):
         self.policies = policies
         self.agents: Dict[str, Agent] = {}
         self.valid_actions: List[str] = ["read", "write", "execute"]
 
-    def validate_policy(self, policy: Policy) -> bool:
+    def validate_policy(self, policy: 'Policy') -> bool:
         try:
             # Validate policy syntax and semantics
             if not self._validate_policy_syntax(policy):
@@ -23,7 +23,7 @@ class PolicyEngine:
             logger.error(f"Invalid policy: {e}")
             return False
 
-    def _validate_policy_syntax(self, policy: Policy) -> bool:
+    def _validate_policy_syntax(self, policy: 'Policy') -> bool:
         # Check policy syntax (e.g., YAML structure)
         try:
             # Use a YAML parser to check syntax
@@ -34,7 +34,7 @@ class PolicyEngine:
             logger.error(f"Invalid policy syntax: {e}")
             return False
 
-    def _validate_policy_semantics(self, policy: Policy) -> bool:
+    def _validate_policy_semantics(self, policy: 'Policy') -> bool:
         # Check policy semantics (e.g., action permissions)
         try:
             for action in policy.actions:
@@ -46,7 +46,7 @@ class PolicyEngine:
             logger.error(f"Error validating policy semantics: {e}")
             return False
 
-    def register_agent(self, agent: Agent):
+    def register_agent(self, agent: 'Agent'):
         try:
             # Register an agent with the policy engine
             if agent.metadata.name in self.agents:
@@ -56,7 +56,7 @@ class PolicyEngine:
         except AgentError as e:
             logger.error(f"Error registering agent: {e}")
 
-    def execute_policy(self, policy: Policy):
+    def execute_policy(self, policy: 'Policy'):
         try:
             # Execute a policy on registered agents
             for agent_name, agent in self.agents.items():
