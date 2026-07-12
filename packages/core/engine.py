@@ -66,3 +66,5 @@ class PolicyEngine:
                     logger.info(f"Executed policy on agent: {agent_name}")
         except PolicyEngineError as e:
             logger.error(f"Error executing policy: {e}")
+        except Exception as e:
+            logger.error(f"Unexpected error executing policy: {e}")
